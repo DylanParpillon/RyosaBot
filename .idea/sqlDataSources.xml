@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="f3a9d964-e669-4774-9375-a8594ae36bec" name="memory Mapping">
+      <data-sources db="9761ea16-d61f-4c77-87bf-7f82f3b1c2c6" ddl="2a916180-8d1f-4b52-93b5-a5f7c1ff052e" />
+      <scope>
+        <node kind="database" negative="1" />
+      </scope>
+    </mapping>
+  </component>
+</project>
