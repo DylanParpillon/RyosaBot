@@ -1,4 +1,5 @@
 # db/crud.py
+import json
 from datetime import datetime, timezone
 from typing import List, Tuple
 from db.model import get_conn
@@ -36,3 +37,21 @@ def clear_user(user: str, channel: str) -> int:
     )
     conn.commit()
     return cur.rowcount
+
+def save_memory(user: str, channel: str, text: str, embedding: list[float]):
+    conn = get_conn()
+    conn.execute(
+        "INSERT INTO memories(user, channel, text, embedding, created_at) VALUES (?, ?, ?, ?, datetime('now'))",
+        (user, channel, text, json.dumps(embedding)),
+    )
+    conn.commit()
+
+def load_memories(user: str, channel: str, limit: int = 1000):
+    cur = get_conn().execute(
+        "SELECT text, embedding FROM memories WHERE user=? AND channel=? ORDER BY created_at DESC LIMIT ?",
+        (user, channel, limit),
+    )
+    rows = []
+    for txt, emb_json in cur.fetchall():
+        rows.append((txt, json.loads(emb_json)))
+    return rows
