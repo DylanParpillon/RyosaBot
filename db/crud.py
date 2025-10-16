@@ -17,7 +17,7 @@ def get_recent_messages(user: str, channel: str) -> List[Tuple[str, str]]:
     """Retourne [(content, created_at_iso)] du plus récent au plus ancien."""
     conn = get_conn()
     cur = conn.execute(
-        "SELECT content, created_at FROM messages WHERE user=? AND channel=? ORDER BY created_at DESC ",
+        "SELECT content, created_at FROM messages WHERE user=? AND channel=? ORDER BY created_at DESC LIMIT 8",
         (user, channel),
     )
     return list(cur.fetchall())
