@@ -12,10 +12,7 @@ _client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
 )
 _MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
-SYSTEM_PROMPT = os.getenv("BOT_SYSTEM_PROMPT",
-    "Tu es Ryosa, un bot Twitch utile, concis, poli et fun. "
-    "Réponds en français. Si une question est illégale ou dangereuse, refuse poliment."
-)
+SYSTEM_PROMPT = os.getenv("BOT_SYSTEM_PROMPT")
 
 async def get_reply(prompt: str) -> str:
     """
@@ -36,17 +33,17 @@ async def get_reply(prompt: str) -> str:
             return f"[AI error] {e}"
     return await asyncio.to_thread(_call)
 
+
+
+
 EMBED_MODEL = os.getenv("OPENAI_EMBED_MODEL", "text-embedding-3-small")
-
-
-
 #async le fait de segmenté les recherches
 async def semantic_search(query: str, user: str, channel: str, k: int = 5) -> list[str]:
     import asyncio
     q = np.array(await asyncio.to_thread(embed_text, query), dtype=np.float32)
     items = load_memories(user, channel, limit=1000)
     scored = []
-    for txt, emb in items:
+    for it txt, emb inems:
         v = np.array(emb, dtype=np.float32)
         scored.append((txt, cosine(q, v)))
     scored.sort(key=lambda t: t[1], reverse=True)
